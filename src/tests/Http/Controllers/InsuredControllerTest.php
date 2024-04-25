@@ -2,8 +2,8 @@
 
 namespace Tests\Http\Controllers;
 
-use Tests\TestCase;
 use Illuminate\Http\UploadedFile;
+use Tests\TestCase;
 
 class InsuredControllerTest extends TestCase
 {
@@ -45,11 +45,11 @@ class InsuredControllerTest extends TestCase
             null,
             true
         );
-        $this->post(route('insureds.store'),[
-            'csv_file' => $file
+        $this->post(route('insureds.store'), [
+            'csv_file' => $file,
         ]);
         $this->assertDatabaseHas('insureds', [
-            'name' => '田中太郎'
+            'name' => '田中太郎',
         ]);
     }
 }
