@@ -15,7 +15,7 @@ class InsuredController extends Controller
         Index $usecase
     )
     {
-        return view('insured.index', [
+        return view('insureds.index', [
             'insureds' => $usecase()
         ]);
     }
@@ -25,7 +25,7 @@ class InsuredController extends Controller
      */
     public function create()
     {
-        //
+        return view('insureds.create');
     }
 
     /**
@@ -33,7 +33,7 @@ class InsuredController extends Controller
      */
     public function store(StoreInsuredRequest $request)
     {
-        //
+        return redirect()->route('insureds.index');
     }
 
     /**

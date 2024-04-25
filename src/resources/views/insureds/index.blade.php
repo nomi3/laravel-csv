@@ -8,6 +8,8 @@
 
     <p>This is a sample Blade template.</p>
 
+    <a href="{{ route('insureds.create') }}">新規登録</a>
+
     <ul>
         @foreach ($insureds as $insured)
             <li>{{ $insured->name }}</li>
