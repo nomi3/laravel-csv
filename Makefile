@@ -6,3 +6,5 @@ down:
 	docker compose down
 app:
 	docker compose exec app ash
+fresh:
+	docker compose exec app php artisan migrate:fresh --seed

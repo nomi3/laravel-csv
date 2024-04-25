@@ -12,8 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('insureds', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->uuid('id')->primary();
+            $table->string('name');
+            $table->integer('insurance_card_number');
+            $table->datetimes();
         });
     }
 
