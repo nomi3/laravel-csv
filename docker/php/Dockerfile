@@ -6,8 +6,11 @@ ENV COMPOSER_ALLOW_SUPERUSER=1 \
 COPY --from=composer:2.7 /usr/bin/composer /usr/bin/composer
 
 RUN apk update && \
-  apk add --no-cache git unzip libzip-dev icu-dev && \
-  docker-php-ext-install intl pdo_mysql zip bcmath
+  apk add --no-cache git unzip libzip-dev icu-dev \
+  freetype-dev libjpeg-turbo-dev libpng-dev && \
+  docker-php-ext-install intl pdo_mysql zip bcmath && \
+  docker-php-ext-configure gd --with-freetype --with-jpeg && \
+  docker-php-ext-install gd
 
 COPY ./php.ini /usr/local/etc/php/php.ini
 
