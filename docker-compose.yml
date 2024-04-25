@@ -1,0 +1,36 @@
+services:
+  app:
+    build: ./docker/php
+    volumes:
+      - ./src:/data
+  web:
+    image: nginx:1.24-alpine
+    ports:
+      - 8080:80
+    volumes:
+      - ./src:/data
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    working_dir: /data
+  db:
+    build: ./docker/mysql
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - db-store:/var/lib/mysql
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+      - db
+    environment:
+      PMA_ARBITRARY: 1
+      PMA_HOSTS: ${MYSQL_HOSTS}
+      PMA_USER: ${MYSQL_USER}
+      PMA_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3300:80"
+
+volumes:
+  db-store:
