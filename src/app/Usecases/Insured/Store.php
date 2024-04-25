@@ -10,9 +10,15 @@ class Store
 {
     private const NAME_HEADER = '漢字氏名';
 
+    private const LAST_NAME_KANA_HEADER = 'カナ（姓）';
+
+    private const FIRST_NAME_KANA_HEADER = 'カナ（名）';
+
     private const EMAIL_HEADER = 'メールアドレス';
 
     private const NUMBER_HEADER = '保険証番号';
+
+    private const SYMBOL_HEADER = '保険証記号';
 
     public function __invoke($csvFile)
     {
@@ -59,15 +65,27 @@ class Store
     private function processRows($worksheet, $headers)
     {
         $nameColumn = $headers[self::NAME_HEADER] ?? null;
+        $lastNameKanaColumn = $headers[self::LAST_NAME_KANA_HEADER] ?? null;
+        $firstNameKanaColumn = $headers[self::FIRST_NAME_KANA_HEADER] ?? null;
         $emailColumn = $headers[self::EMAIL_HEADER] ?? null;
         $numberColumn = $headers[self::NUMBER_HEADER] ?? null;
+        $symbolColumn = $headers[self::SYMBOL_HEADER] ?? null;
 
         foreach ($worksheet->getRowIterator(2) as $row) {
             $rowIndex = $row->getRowIndex();
-            $name = $email = $number = null;
+            $name = $email = $number = $lastNameKana = $firstNameKana = $symbol = null;
 
             if ($nameColumn) {
                 $name = $worksheet->getCell($nameColumn.$rowIndex)->getValue();
+            }
+            if ($lastNameKanaColumn) {
+                $lastNameKana = $worksheet->getCell($lastNameKanaColumn.$rowIndex)->getValue();
+            }
+            if ($firstNameKanaColumn) {
+                $firstNameKana = $worksheet->getCell($firstNameKanaColumn.$rowIndex)->getValue();
+            }
+            if ($symbolColumn) {
+                $symbol = $worksheet->getCell($symbolColumn.$rowIndex)->getValue();
             }
             if ($emailColumn) {
                 $email = $worksheet->getCell($emailColumn.$rowIndex)->getValue();
@@ -80,8 +98,11 @@ class Store
 
             $insured = new Insured([
                 'name' => $name,
+                'first_name_kana' => $firstNameKana,
+                'last_name_kana' => $lastNameKana,
                 'email' => $email,
                 'insurance_card_number' => $number,
+                'insurance_card_symbol' => $symbol,
             ]);
             $insured->save();
         }

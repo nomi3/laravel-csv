@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('insureds', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
+            $table->string('first_name_kana');
+            $table->string('last_name_kana');
+            $table->integer('insurance_card_symbol');
             $table->integer('insurance_card_number');
             $table->string('email')->nullable();
             $table->datetimes();

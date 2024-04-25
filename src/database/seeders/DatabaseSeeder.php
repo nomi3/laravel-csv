@@ -21,6 +21,9 @@ class DatabaseSeeder extends Seeder
 
         Insured::factory()->create([
             'name' => 'Test Insured',
+            'first_name_kana' => 'テスト',
+            'last_name_kana' => 'インシュアード',
+            'insurance_card_symbol' => 1234,
             'insurance_card_number' => 1234567890,
             'email' => 'test@example.com',
         ]);
