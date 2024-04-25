@@ -4,16 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreInsuredRequest;
 use App\Http\Requests\UpdateInsuredRequest;
-use App\Models\Insured;
+use App\Usecases\Insured\Index;
 
 class InsuredController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(
+        Index $usecase
+    )
     {
-        return view('insured.index');
+        return view('insured.index', [
+            'insureds' => $usecase()
+        ]);
     }
 
     /**
