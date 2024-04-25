@@ -7,6 +7,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/insureds', [InsuredController::class, 'index'])->name('insureds.index');
-Route::get('/insureds/create', [InsuredController::class, 'create'])->name('insureds.create');
-Route::post('/insureds', [InsuredController::class, 'store'])->name('insureds.store');
+Route::controller(InsuredController::class)->prefix('insureds')->name('insureds.')->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::get('/create', 'create')->name('create');
+    Route::post('/', 'store')->name('store');
+});
