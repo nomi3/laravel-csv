@@ -8,9 +8,9 @@ use App\Models\Insured;
 
 class Store
 {
-    private const NAME_HEADER = '名前';
+    private const NAME_HEADER = '漢字氏名';
     private const EMAIL_HEADER = 'メールアドレス';
-    private const NUMBER_HEADER = '番号';
+    private const NUMBER_HEADER = '保険証番号';
 
     public function __invoke($csvFile)
     {

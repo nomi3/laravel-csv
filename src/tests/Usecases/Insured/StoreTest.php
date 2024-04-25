@@ -11,14 +11,14 @@ class StoreTest extends TestCase
     public function testInvoke()
     {
         $usecase = new Store();
-        $thumbFile = new UploadedFile(
+        $file = new UploadedFile(
             public_path('test_data.csv'),
             'test_data.csv',
             'text/csv',
             null,
             true
         );
-        $usecase($thumbFile);
+        $usecase($file);
         $this->assertDatabaseHas('insureds', [
             'name' => '田中太郎'
         ]);
