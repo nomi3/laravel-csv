@@ -14,10 +14,9 @@ class InsuredController extends Controller
      */
     public function index(
         Index $usecase
-    )
-    {
+    ) {
         return view('insureds.index', [
-            'insureds' => $usecase()
+            'insureds' => $usecase(),
         ]);
     }
 
@@ -35,9 +34,9 @@ class InsuredController extends Controller
     public function store(
         StoreInsuredRequest $request,
         Store $usecase
-    )
-    {
+    ) {
         $usecase($request->file('csv_file'));
+
         return redirect()->route('insureds.index');
     }
 

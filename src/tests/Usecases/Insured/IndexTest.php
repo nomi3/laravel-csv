@@ -2,8 +2,8 @@
 
 namespace Tests\Usecases\Insured;
 
-use Tests\TestCase;
 use App\Usecases\Insured\Index;
+use Tests\TestCase;
 
 class IndexTest extends TestCase
 {
@@ -14,5 +14,3 @@ class IndexTest extends TestCase
         $this->assertEquals('Test Insured', $insureds[0]->name);
     }
 }
-
-

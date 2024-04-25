@@ -2,14 +2,16 @@
 
 namespace App\Usecases\Insured;
 
+use App\Models\Insured;
 use Illuminate\Support\Facades\Log;
 use PhpOffice\PhpSpreadsheet\Reader\Csv;
-use App\Models\Insured;
 
 class Store
 {
     private const NAME_HEADER = '漢字氏名';
+
     private const EMAIL_HEADER = 'メールアドレス';
+
     private const NUMBER_HEADER = '保険証番号';
 
     public function __invoke($csvFile)
@@ -17,7 +19,8 @@ class Store
         try {
             $spreadsheet = $this->loadSpreadsheet($csvFile);
         } catch (\Exception $e) {
-            Log::error("Failed to load spreadsheet: " . $e->getMessage());
+            Log::error('Failed to load spreadsheet: '.$e->getMessage());
+
             return false;
         }
 
@@ -35,6 +38,7 @@ class Store
         $reader->setEnclosure('"');
         $reader->setDelimiter(',');
         $reader->setSheetIndex(0);
+
         return $reader->load($csvFile);
     }
 
@@ -48,6 +52,7 @@ class Store
         foreach ($cellIterator as $cell) {
             $headers[$cell->getValue()] = $cell->getColumn();
         }
+
         return $headers;
     }
 
@@ -61,9 +66,15 @@ class Store
             $rowIndex = $row->getRowIndex();
             $name = $email = $number = null;
 
-            if ($nameColumn) $name = $worksheet->getCell($nameColumn . $rowIndex)->getValue();
-            if ($emailColumn) $email = $worksheet->getCell($emailColumn . $rowIndex)->getValue();
-            if ($numberColumn) $number = $worksheet->getCell($numberColumn . $rowIndex)->getValue();
+            if ($nameColumn) {
+                $name = $worksheet->getCell($nameColumn.$rowIndex)->getValue();
+            }
+            if ($emailColumn) {
+                $email = $worksheet->getCell($emailColumn.$rowIndex)->getValue();
+            }
+            if ($numberColumn) {
+                $number = $worksheet->getCell($numberColumn.$rowIndex)->getValue();
+            }
 
             Log::info("Extracted data - Name: $name, Email: $email, Number: $number");
 

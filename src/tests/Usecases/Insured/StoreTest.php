@@ -2,9 +2,9 @@
 
 namespace Tests\Usecases\Insured;
 
-use Tests\TestCase;
 use App\Usecases\Insured\Store;
 use Illuminate\Http\UploadedFile;
+use Tests\TestCase;
 
 class StoreTest extends TestCase
 {
@@ -20,7 +20,7 @@ class StoreTest extends TestCase
         );
         $usecase($file);
         $this->assertDatabaseHas('insureds', [
-            'name' => '田中太郎'
+            'name' => '田中太郎',
         ]);
     }
 }
