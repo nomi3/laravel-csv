@@ -10,4 +10,10 @@ class Insured extends Model
 {
     use HasFactory;
     use HasUuids;
+
+    protected $fillable = [
+        'name',
+        'insurance_card_number',
+        'email',
+    ];
 }
