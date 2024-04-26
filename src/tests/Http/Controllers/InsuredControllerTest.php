@@ -52,4 +52,15 @@ class InsuredControllerTest extends TestCase
             'name' => '田中太郎',
         ]);
     }
+
+    /**
+     * Test the search method.
+     *
+     * @return void
+     */
+    public function testSearch()
+    {
+        $response = $this->get(route('insureds.search'));
+        $response->assertOk();
+    }
 }

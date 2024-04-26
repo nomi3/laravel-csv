@@ -11,4 +11,5 @@ Route::controller(InsuredController::class)->prefix('insureds')->name('insureds.
     Route::get('/', 'index')->name('index');
     Route::get('/create', 'create')->name('create');
     Route::post('/', 'store')->name('store');
+    Route::get('/search', 'search')->name('search');
 });
