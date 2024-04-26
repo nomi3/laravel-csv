@@ -8,11 +8,14 @@ use PhpOffice\PhpSpreadsheet\Reader\Csv;
 
 class Store
 {
-    private const NAME_HEADER = '漢字氏名';
-
-    private const EMAIL_HEADER = 'メールアドレス';
-
-    private const NUMBER_HEADER = '保険証番号';
+    private const HEADERS_TO_ATTRIBUTES = [
+        '漢字氏名' => 'name',
+        'カナ（姓）' => 'last_name_kana',
+        'カナ（名）' => 'first_name_kana',
+        'メールアドレス' => 'email',
+        '保険証番号' => 'insurance_card_number',
+        '保険証記号' => 'insurance_card_symbol',
+    ];
 
     public function __invoke($csvFile)
     {
@@ -58,31 +61,18 @@ class Store
 
     private function processRows($worksheet, $headers)
     {
-        $nameColumn = $headers[self::NAME_HEADER] ?? null;
-        $emailColumn = $headers[self::EMAIL_HEADER] ?? null;
-        $numberColumn = $headers[self::NUMBER_HEADER] ?? null;
-
         foreach ($worksheet->getRowIterator(2) as $row) {
-            $rowIndex = $row->getRowIndex();
-            $name = $email = $number = null;
-
-            if ($nameColumn) {
-                $name = $worksheet->getCell($nameColumn.$rowIndex)->getValue();
-            }
-            if ($emailColumn) {
-                $email = $worksheet->getCell($emailColumn.$rowIndex)->getValue();
-            }
-            if ($numberColumn) {
-                $number = $worksheet->getCell($numberColumn.$rowIndex)->getValue();
+            $rowData = [];
+            foreach (self::HEADERS_TO_ATTRIBUTES as $header => $attribute) {
+                $column = $headers[$header] ?? null;
+                if ($column) {
+                    $rowData[$attribute] = $worksheet->getCell($column.$row->getRowIndex())->getValue();
+                }
             }
 
-            Log::info("Extracted data - Name: $name, Email: $email, Number: $number");
+            Log::info("Extracted data - Name: {$rowData['name']}, Email: {$rowData['email']}, Number: {$rowData['insurance_card_number']}");
 
-            $insured = new Insured([
-                'name' => $name,
-                'email' => $email,
-                'insurance_card_number' => $number,
-            ]);
+            $insured = new Insured($rowData);
             $insured->save();
         }
     }

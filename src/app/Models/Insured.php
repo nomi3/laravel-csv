@@ -13,6 +13,9 @@ class Insured extends Model
 
     protected $fillable = [
         'name',
+        'first_name_kana',
+        'last_name_kana',
+        'insurance_card_symbol',
         'insurance_card_number',
         'email',
     ];
