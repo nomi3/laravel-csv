@@ -31,6 +31,12 @@ services:
       PMA_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "3300:80"
-
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - target: 8025
+        published: ${MAILHOG_PUBLISHED_PORT:-8025}
+        protocol: tcp
+        mode: host
 volumes:
   db-store:
